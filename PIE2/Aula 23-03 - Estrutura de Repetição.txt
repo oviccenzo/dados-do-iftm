@@ -1,0 +1,114 @@
+#Aula - PIE - 23/03/2023
+#Estruturas de Repetição - Uma estrutura de repetição é um comando
+#que realiza um teste lógico e executa um bloco de códigos enquanto
+#o retorno deste teste lógico for verdadeiro. São 3 as estruturas
+#clásssicas de repetição: para, enquanto e repita até.
+#Estrutura de Repetição - para - Comando for no python. Deve ser
+#utilizado quando sabemos exatamente a quantidade de iterações
+#queremos realizar.
+# Em Portugol:
+# para i de 0 até 5 faça
+#      bloco de comandos
+#Em Python:
+# for i in range(6):
+#      bloco de comandos
+for i in range(6):
+    print("i: ", i)
+
+#Estrutura de Repetição - enquanto - Comando while no python.
+#Deve ser utilizado quando não sabemos exatamente o número de
+#iterações que iremos repetir.
+#Em Portugol:
+#enquanto(condição) faça
+#      bloco de comandos
+#Em Python:
+#while(condição):
+#      bloco de comandos
+i = 0
+while(i<6):
+    print("i:", i)
+    i = i +1
+
+#Sistema Fibonacci
+print("Sistema que lê um número n e retorna os n primeiros termos "
+      "da sequência de Fibonacci")
+n = int(input("Entre com o número do termo: "))
+j = 1
+i = 0
+for k in range(n):
+    t = i + j
+    i = j
+    j = t
+    print(j," ")
+
+
+#Sistema de Menu
+opção=0
+while(opção!=5):
+    print("Calculadora")
+    print("1 - Somar dois números: ")
+    print("2 - Subtrair dois números: ")
+    print("3 - Multiplcar dois números: ")
+    print("4 - Dividir dois números: ")
+    print("5 - Sair do Sistema")
+    opção = int(input("Escolha a opção que você deseja: "))
+    if(opção==1):
+        print("Você escolheu 1 - Somar dois números")
+        numero1 = int(input("Digite o primeiro número:"))
+        numero2 = int(input("Digite o segundo número: "))
+        soma = numero1 + numero2
+        print("Soma: ", soma)
+    elif(opção==2):
+        print("Você escolheu 2 - Subtrair dois números")
+        numero1 = int(input("Digite o primeiro número: "))
+        numero2 = int(input("Digite o segundo número: "))
+        subtração = numero1 - numero2
+        print("Subtração: ", subtração)
+    elif(opção==3):
+        print("Você escolheu 3 - Multiplicar dois números")
+        numero1 = int(input("Digite o primeiro número: "))
+        numero2 = int(input("Digite o segundo número: "))
+        multiplicação = numero1 * numero2
+        print("Multiplicação: ", multiplicação)
+    elif(opção==4):
+        print("Você escolheu 4 - Dividir dois números")
+        numero1 = float(input("Digite o primeiro número: "))
+        numero2 = float(input("Digite o segundo número: "))
+        divisão = numero1/numero2
+        print("Divisão: ", divisão)
+    elif(opção==5):
+        print("Você escolheu 5 - Sair")
+    else:
+        print("Você escolheu um opção inválida")
+
+opção = 0
+clientes = ["Rodrigo", "Ricardo", "Ana", "Letícia"]
+while(opção!=5):
+    print("Sistema do Supermercado")
+    print("1 - Cadastrar Cliente")
+    print("2 - Listar Clientes")
+    print("3- Alterar Cliente")
+    print("4 - Remover Cliente")
+    print("5 - Sair")
+    opção = int(input("Digite a opção desejada: "))
+    if(opção==1):
+        print("Você escolheu a opção 1 - Cadastrar Cliente")
+        nome = input("Entre com o nome do novo cliente: ")
+        clientes.append(nome)
+    elif(opção==2):
+        print("Você escolheu a opção 2 - Listar Clientes")
+        for i in clientes:
+            print(i)
+    elif(opção==3):
+        print("Você escolheu a opção 3 - Alterar Cliente")
+    elif(opção==4):
+        print("Você escolheu a opção 4 - Remover Cliente")
+        print("Clientes:")
+        for i in clientes:
+            print(i)
+        nome = input("Entre com o nome do cliente que você quer remover:")
+        clientes.remove(nome)
+    elif(opção==5):
+        print("Você escolheu a opção 5 - Sair")
+    else:
+        print("Você escolheu uma opção inválida")

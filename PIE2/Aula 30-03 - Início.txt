@@ -1,0 +1,31 @@
+opção = 0
+clientes = ["Rodrigo", "Ricardo", "Ana", "Letícia"]
+while(opção!=5):
+    print("Sistema do Supermercado")
+    print("1 - Cadastrar Cliente")
+    print("2 - Listar Clientes")
+    print("3- Alterar Cliente")
+    print("4 - Remover Cliente")
+    print("5 - Sair")
+    opção = int(input("Digite a opção desejada: "))
+    if(opção==1):
+        print("Você escolheu a opção 1 - Cadastrar Cliente")
+        nome = input("Entre com o nome do novo cliente: ")
+        clientes.append(nome)
+    elif(opção==2):
+        print("Você escolheu a opção 2 - Listar Clientes")
+        for i in clientes:
+            print(i)
+    elif(opção==3):
+        print("Você escolheu a opção 3 - Alterar Cliente")
+    elif(opção==4):
+        print("Você escolheu a opção 4 - Remover Cliente")
+        print("Clientes:")
+        for i in clientes:
+            print(i)
+        nome = input("Entre com o nome do cliente que você quer remover:")
+        clientes.remove(nome)
+    elif(opção==5):
+        print("Você escolheu a opção 5 - Sair")
+    else:
+        print("Você escolheu uma opção inválida")

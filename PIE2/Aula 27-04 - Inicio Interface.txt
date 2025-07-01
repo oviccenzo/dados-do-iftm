@@ -1,0 +1,17 @@
+#A biblioteca tkinter é a responsável por criar elementos
+#gráficos - tela, labels, botões. Nós iremos utilizar
+#as classes e outros elementos existentes nessa 
+# biblioteca para construírmos nossa interface com o 
+# usuário.
+import tkinter as tk
+# Criando a janela
+janela = tk.Tk()
+# Configurando o título da janela
+janela.title("Minha Janela")
+# Configurando as dimensões da janela
+janela.geometry("600x400")
+# Adicionando um label na janela
+label = tk.Label(janela, text="Olá, Tkinter!")
+label.pack(pady=100)
+# Executando o loop principal da janela
+janela.mainloop()
