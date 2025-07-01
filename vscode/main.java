@@ -1,0 +1,3 @@
+class pessoa{
+    string nom
+}

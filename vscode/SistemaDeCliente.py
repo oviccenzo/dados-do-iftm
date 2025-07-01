@@ -1,0 +1,41 @@
+#Criando uma classe - um novo tipo de dados. No nosso caso a.py Classe
+#tem o nome de Cliente e possuí quatro atributos(características)
+#cpf,nome,idade,telefone. 
+class Cliente:
+    #Método Construtor chamado __init__. É o método responsável por
+    #reservar o espaço na memória no momento que uma variável(objeto 
+    #ou instância da classe) é criada. No nosso caso além dos quatro
+    #atributos recebe como parâmetro o atributo self. Que faz referência
+    #a.py variável que será criada.
+    def __init__(self,cpf,nome,idade,telefone):
+        self.cpf = cpf
+        self.nome = nome
+        self.idade = idade
+        self.telefone = telefone
+
+#Criação de uma instancia, variável chamada cliente1 do tipo Cliente
+#São passados 4 parâmetros como argumento CPF,nome, idade, telefone
+#O parametro self é o endereço na memória da varíavel cliente1
+cliente1 = Cliente("321.231.235-21", "Rodrigo", "39","99156-9879")
+print("Nome: ", cliente1.nome)
+print("CPF: ", cliente1.cpf)
+print("Idade: ", cliente1.idade)
+print("Telefone: ", cliente1.telefone)
+
+cliente2 = Cliente("434.436.678-89", "Thiago", "33", "99899-5665")
+print("Nome: ", cliente2.nome)
+print("CPF: ", cliente2.cpf)
+print("Idade: ", cliente2.idade)
+print("Telefone: ", cliente2.telefone)
+#Criando uma lista vazia
+listaDeClientes = []
+#Incluindo cliente1 e cliente2 na lista
+listaDeClientes.append(cliente1)
+listaDeClientes.append(cliente2)
+#Percorrendo a.py lista
+for cliente in listaDeClientes:
+    #Imprimindo valores da lista de clientes
+    print("Nome: ", cliente.nome)
+    print("CPF: ", cliente.cpf)
+    print("Idade: ", cliente.idade)
+    print("Telefone: ", cliente.telefone)
