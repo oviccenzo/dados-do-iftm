@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+        <title>Calculadora de Soma de PA e PG</title>
+</head>
+<body>
+
+    <h1>Calculadora de Soma de PA e PG</h1>
+
+    <label for="pa">Prograssão Aritmetica(PA)</label>
+    <input type="number" id="pa" aria-placeholder="Primeiro termo da pa">
+    <input type="number" id="razao_pa" aria-palceholder="Razao da PA">
+    <input type="number" id="n_pa" aria-placeholder="Quantidade termo da PA">
+
+    <label for="pg">Progressão Geometrica (PG)</label>
+    <input type="number" id="pg" aria-placeholder="Primeiro termo da PG">
+    <input type="number" id="razao_pg" aria-placeholder="Razao da PG">
+    <input type="number" id="n_pg" aria-placeholder="Quantidade de termo da PG">
+
+    <button onclick="calcularSoma()">Calcuclar Soma</button>
+
+    <p id="resultado"></p>
+
+  <script>
+    function calcularSoma() {
+      var pa = parseFloat(document.getElementById('pa').value);
+      var razaoPA = parseFloat(document.getElementById('razao_pa').value);
+      var nPA = parseFloat(document.getElementById('n_pa').value);
+
+      var pg = parseFloat(document.getElementById('pg').value);
+      var razaoPG = parseFloat(document.getElementById('razao_pg').value);
+      var nPG = parseFloat(document.getElementById('n_pg').value);
+
+      var somaPA = (nPA / 2) * (2 * pa + (nPA - 1) * razaoPA);
+      var somaPG = pg * ((Math.pow(razaoPG, nPG) - 1) / (razaoPG - 1));
+
+      var resultado = "Soma da PA: " + somaPA + "<br>Soma da PG: " + somaPG;
+      document.getElementById('resultado').innerHTML = resultado;
+    }
+  </script>
+
+  </body>
+  </html>
