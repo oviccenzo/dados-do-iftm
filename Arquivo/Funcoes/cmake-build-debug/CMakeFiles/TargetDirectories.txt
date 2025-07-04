@@ -1,0 +1,3 @@
+/Users/rlresende/Funcoes/cmake-build-debug/CMakeFiles/Funcoes.dir
+/Users/rlresende/Funcoes/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/rlresende/Funcoes/cmake-build-debug/CMakeFiles/rebuild_cache.dir
