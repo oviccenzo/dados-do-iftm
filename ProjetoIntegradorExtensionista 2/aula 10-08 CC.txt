@@ -1,0 +1,68 @@
+/*
+O comando include serve para incluir uma biblioteca de funções
+(comandos). A inclusão de uma biblioteca permite que o programador
+utilize comandos ou funções que foram disponibilizadas por outros
+desenvolvedores. No nosso caso estamos incluindo duas bibliotecas:
+stdio.h e stdlib.h. Que possuem os comandos básicos de entrada e saída. 
+*/
+#include <stdio.h>
+#include <stdlib.h>
+/*
+A função main(principal) é a primeira função executada pelo compilador
+quando um código é executado. No nosso caso a função principal retorna
+um número inteiro e possui 2 parâmetros de entrada(argc, argv). argc 
+armazena a quantidade de parametros que será passada como entrada 
+e o argv são os parametros de entrada propriamente ditos.
+*/
+int main(int argc, char *argv[]) 
+{
+	/*
+	Em C as chaves {} são utilizadas para determinar o bloco de 
+	códigos. No nosso caso temos um único bloco de códigos.
+	*/
+	/*
+	O comando printf serve para imprimir um valor na tela. o ; 
+	determina o final do comando.
+	*/
+	printf("Hello World");
+	/*
+	A linguagem C permite a utilização de variáveis para armazenar
+	valores. A declaração de uma variável segue a seguinte lógica:
+	tipo_do_dado nome_da_variavel.
+	No nosso caso temos 3 variáveis do tipo int(inteiro). Chamadas
+	a, b e soma. 
+	*/
+	int a,b, soma;
+	/*Após a declaração da variável estamos atribuindo valores 
+	as mesmas. No nosso caso estamos armazenando o valor 5 na variável
+	a e 7 na b.*/
+	a = 5;
+	b = 7;
+	/*
+	O comando printf permite a impressão de uma variável basta informar
+	o tipo. No nosso caso %d é um valor decimal inteiro. Usamos a 
+	vírgula para concatenar e avisar o nome da variável.
+	*/
+	printf("\nA: %d", a);
+	printf("\nB: %d", b);
+	/* 
+	A linguagem C disponibiliza uma séries de operadores lógicos e 
+	aritméticos. Um deles é a + que realiza a soma de dois valores
+	*/
+	soma = a + b;
+	printf("\nSoma: %d", soma);
+	
+	int c, d;
+	/*
+	O Comando scanf serve para ler um valor digitado pelo teclado.
+	scanf("%d", &c);
+	Você deve passar o tipo do dado que será lido no nosso caso %d
+	e o endereço(nome da variável) no nosso caso &c
+	*/
+	scanf("%d", &c);
+	scanf("%d", &d);
+	printf("\nC: %d", c);
+	printf("\nD: %d", d);
+	
+	return 0;
+}
