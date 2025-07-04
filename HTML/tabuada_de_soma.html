@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tabuada de soma </title>
+    <script>
+        function calcularTabuada(){
+            var resultado = document.getElementById("resultado");
+            resultado.innerHTML = ""; // Limpa qualquer resultado anterior
+
+            var limite = 30; // Voce pode mudar o limite da tabuada aqui
+
+            for (var i = 1; i <= limite; i++){
+                var linha = document.createElement("p");
+                linha.innerHTML = ""; // Cria uma linha vazia
+
+                for (var j = 1; j <= limite; j++){
+                    var soma = j + i;
+                    linha.innerHTML += i + " + " + j + " = " + soma + " <br> ";
+                }
+
+                resultado.appendChild(linha); //Adiciona a linha ao resultado
+
+            }
+        }
+    </script>
+</head>
+<body>
+
+<h2> Tabuada de Soma </h2>
+
+<button onclick ="calcularTabuada()">Calcular</button>
+
+<div id="resultado">
+
+</div>
+
+</body>
+<html>

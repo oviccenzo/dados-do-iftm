@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+        <title>Calculadora de Raiz ao Quadrado</title>
+</head>
+<body>
+    <label for="numero">Digite um numero:</label>
+    <input type="number" id="numero">
+    <button onclick="calcularRaizQuadrada()">Calcular Raiz Quadrada</button>
+    <p id="resultado"></p>
+
+    <script>
+        function calcularRaizQuadrada(){
+            var numero = parseFloat(document.getElementById('numero').value);
+            var resultado = Math.sqrt(numero);
+            document.getElementById('resultado').innerHTML = 'A raiz quadrado de  ' + numero + ' é ' + resultado.toFixed(2);
+        }
+    </script>
+</body>
+</html>
