@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pokemon Detail | Basic Pokedex</title>
+    <meta name="description" content="Detailed Pokemon information including stats, abilities, evolution chain, and more." />
+    <meta name="keywords" content="pokemon, pokedex, stats, abilities, evolution, moves" />
+    <meta name="author" content="Basic Pokedex" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Pokemon Detail | Basic Pokedex" />
+    <meta property="og:description" content="Detailed Pokemon information including stats, abilities, evolution chain, and more." />
+    <meta property="og:url" content="https://basicpokedex.com/pokemon-detail" />
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:title" content="Pokemon Detail | Basic Pokedex" />
+    <meta property="twitter:description" content="Detailed Pokemon information including stats, abilities, evolution chain, and more." />
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="../public/favicon.ico" />
+    <link rel="apple-touch-icon" href="../public/favicon.ico" />
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="../css/main.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    
+    <!-- Service Worker for offline functionality -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then(registration => console.log('SW registered'))
+                    .catch(error => console.log('SW registration failed'));
+            });
+        }
+    </script>
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="../js/api.js" as="script" />
+    <link rel="preload" href="../js/pokemon-detail.js" as="script" />
+<script type="module" src="https://static.rocket.new/rocket-web.js?_cfg=https%3A%2F%2Fbasicpoke7800back.builtwithrocket.new&_be=https%3A%2F%2Fapplication.rocket.new&_v=0.1.5"></script>
+</head>
+<body class="bg-background min-h-screen" data-theme="light">
+    <!-- Skip to main content link for accessibility -->
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-primary text-white px-4 py-2 rounded-md z-50">
+        Skip to main content
+    </a>
+
+    <!-- Loading Skeleton with enhanced animation -->
+    <div class="loading-skeleton hidden fixed inset-0 bg-surface z-50 flex items-center justify-center">
+        <div class="text-center">
+            <div class="loading-spinner"></div>
+            <h2 class="text-xl font-semibold text-text-primary mb-2">Loading Pokemon Data</h2>
+            <p class="text-text-secondary">Please wait while we fetch the information...</p>
+            <div class="mt-4 w-48 h-2 bg-border rounded-full overflow-hidden">
+                <div class="h-full bg-primary rounded-full skeleton-shimmer"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Enhanced Error Message -->
+    <div class="error-message hidden fixed top-4 right-4 bg-error-500 text-white px-6 py-4 rounded-lg shadow-lg z-50 max-w-md">
+        <div class="flex items-center gap-3">
+            <svg class="w-5 h-5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+            </svg>
+            <div>
+                <h3 class="font-semibold">Error</h3>
+                <p class="text-sm opacity-90">Pokemon not found</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Global Navigation Header -->
+    <header class="bg-surface border-b border-border sticky top-0 z-40 shadow-card backdrop-blur-sm bg-opacity-95">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <a href="pokemon_detail_view.html" class="flex items-center space-x-2 focus:outline-none focus:ring-2 focus:ring-primary rounded-md p-1">
+                        <div class="w-8 h-8 bg-gradient-to-br from-primary to-primary-600 rounded-lg flex items-center justify-center">
+                            <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="10"/>
+                                <circle cx="12" cy="12" r="3" fill="white"/>
+                            </svg>
+                        </div>
+                        <span class="text-xl font-bold text-text-primary">Pokedex</span>
+                    </a>
+                </div>
+
+                <!-- Navigation Links -->
+                <nav class="hidden md:flex items-center space-x-8" role="navigation" aria-label="Main navigation">
+                    <a href="pokemon_detail_view.html" class="text-text-secondary hover:text-primary transition-smooth focus:outline-none focus:ring-2 focus:ring-primary rounded-md px-2 py-1">Home</a>
+                    <a href="pokemon_detail_view.html" class="text-text-secondary hover:text-primary transition-smooth focus:outline-none focus:ring-2 focus:ring-primary rounded-md px-2 py-1">Pokemon</a>
+                    <a href="pokemon_detail_view.html" class="text-text-secondary hover:text-primary transition-smooth focus:outline-none focus:ring-2 focus:ring-primary rounded-md px-2 py-1">Types</a>
+                    <a href="pokemon_detail_view.html" class="text-text-secondary hover:text-primary transition-smooth focus:outline-none focus:ring-2 focus:ring-primary rounded-md px-2 py-1">Favorites</a>
+                </nav>
+
+                <!-- Enhanced Search Bar -->
+                <div class="flex-1 max-w-md mx-8 hidden lg:block">
+                    <div class="relative">
+                        <input type="text" placeholder="Search Pokemon by name or ID..." class="search-input input-field w-full pl-10 pr-4" aria-label="Search Pokemon" autocomplete="off" spellcheck="false" />
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <svg class="h-5 w-5 text-text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button class="md:hidden p-2 rounded-md text-text-secondary hover:text-primary hover:bg-primary-50 transition-smooth focus:outline-none focus:ring-2 focus:ring-primary" aria-label="Open menu">
+                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Breadcrumb Navigation -->
+    <div class="bg-surface border-b border-border-light">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+            <nav class="flex items-center space-x-2 text-sm" aria-label="Breadcrumb">
+                <a href="pokemon_detail_view.html" class="text-text-secondary hover:text-primary transition-smooth focus:outline-none focus:ring-2 focus:ring-primary rounded-md px-1">Home</a>
+                <svg class="w-4 h-4 text-text-secondary" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+                    <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
+                </svg>
+                <a href="pokemon_detail_view.html" class="text-text-secondary hover:text-primary transition-smooth focus:outline-none focus:ring-2 focus:ring-primary rounded-md px-1">Pokemon</a>
+                <svg class="w-4 h-4 text-text-secondary" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+                    <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
+                </svg>
+                <span class="breadcrumb-pokemon text-text-primary font-medium">Loading...</span>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8" id="main-content">
+        <!-- Navigation Arrows -->
+        <div class="flex justify-between items-center mb-6">
+            <button class="prev-pokemon nav-arrow prev group focus:outline-none focus:ring-2 focus:ring-primary" aria-label="Previous Pokemon">
+                <svg class="w-5 h-5 transition-transform group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                </svg>
+                <span>Previous</span>
+            </button>
+            <span class="pokemon-number text-text-secondary font-medium font-data">#000</span>
+            <button class="next-pokemon nav-arrow group focus:outline-none focus:ring-2 focus:ring-primary" aria-label="Next Pokemon">
+                <span>Next</span>
+                <svg class="w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Pokemon Detail Layout -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8 pokemon-detail-grid">
+            <!-- Hero Section -->
+            <div class="card">
+                <div class="text-center">
+                    <!-- Pokemon Image -->
+                    <div class="relative mb-6">
+                        <div class="w-64 h-64 mx-auto bg-gradient-to-br from-accent-100 to-accent-200 rounded-full flex items-center justify-center overflow-hidden">
+                            <img src alt="Pokemon" class="pokemon-image w-48 h-48 object-cover rounded-full transition-opacity duration-300" loading="lazy" />
+                        </div>
+                        <!-- Enhanced Favorite Button -->
+                        <button class="favorite-btn absolute top-4 right-4 w-12 h-12 bg-surface rounded-full shadow-modal border border-border flex items-center justify-center hover:bg-error-50 hover:border-error-200 transition-smooth group focus:outline-none focus:ring-2 focus:ring-error-500" aria-label="Add to favorites">
+                            <svg class="w-6 h-6 text-text-secondary group-hover:text-error-500 transition-smooth" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <!-- Pokemon Name and ID -->
+                    <h1 class="pokemon-name text-4xl font-bold text-text-primary mb-2">Loading...</h1>
+                    <p class="pokemon-id text-text-secondary font-data text-lg mb-4">#000</p>
+
+                    <!-- Type Badges -->
+                    <div class="type-badges flex justify-center space-x-2 mb-6" role="list" aria-label="Pokemon types">
+                        <!-- Type badges will be populated by JavaScript -->
+                    </div>
+
+                    <!-- Basic Info -->
+                    <div class="grid grid-cols-2 gap-4 text-center">
+                        <div class="bg-primary-50 rounded-lg p-4">
+                            <p class="text-text-secondary text-sm mb-1">Height</p>
+                            <p class="pokemon-height text-text-primary font-bold text-lg font-data">- m</p>
+                        </div>
+                        <div class="bg-secondary-50 rounded-lg p-4">
+                            <p class="text-text-secondary text-sm mb-1">Weight</p>
+                            <p class="pokemon-weight text-text-primary font-bold text-lg font-data">- kg</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Enhanced Tabbed Content -->
+            <div class="card">
+                <!-- Tab Navigation -->
+                <div class="border-b border-border-light">
+                    <nav class="flex space-x-8 px-6 tab-navigation" role="tablist" aria-label="Pokemon information tabs">
+                        <button class="py-4 px-2 tab-button focus:outline-none focus:ring-2 focus:ring-primary border-b-2 border-primary text-primary font-medium" data-tab="stats" role="tab" aria-selected="true" aria-controls="stats-tab" tabindex="0">
+                            Stats
+                        </button>
+                        <button class="py-4 px-2 tab-button focus:outline-none focus:ring-2 focus:ring-primary border-b-2 border-transparent text-text-secondary hover:text-text-primary transition-smooth" data-tab="abilities" role="tab" aria-selected="false" aria-controls="abilities-tab" tabindex="-1">
+                            Abilities
+                        </button>
+                        <button class="py-4 px-2 tab-button focus:outline-none focus:ring-2 focus:ring-primary border-b-2 border-transparent text-text-secondary hover:text-text-primary transition-smooth" data-tab="evolution" role="tab" aria-selected="false" aria-controls="evolution-tab" tabindex="-1">
+                            Evolution
+                        </button>
+                        <button class="py-4 px-2 tab-button focus:outline-none focus:ring-2 focus:ring-primary border-b-2 border-transparent text-text-secondary hover:text-text-primary transition-smooth" data-tab="moves" role="tab" aria-selected="false" aria-controls="moves-tab" tabindex="-1">
+                            Moves
+                        </button>
+                    </nav>
+                </div>
+
+                <!-- Tab Content -->
+                <div class="p-6">
+                    <!-- Stats Tab -->
+                    <div id="stats-tab" class="tab-content" role="tabpanel" aria-labelledby="stats-tab-button">
+                        <h3 class="text-xl font-bold text-text-primary mb-4">Base Stats</h3>
+                        <div class="space-y-4">
+                            <div data-stat="hp" class="flex items-center justify-between">
+                                <span class="text-text-secondary font-medium w-20">HP</span>
+                                <div class="flex-1 mx-4">
+                                    <div class="bg-border-light rounded-full h-3">
+                                        <div class="stat-bar bg-success-500 h-3 rounded-full" style="width: 0%" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="255"></div>
+                                    </div>
+                                </div>
+                                <span class="stat-value text-text-primary font-bold w-12 text-right font-data">0</span>
+                            </div>
+                            <div data-stat="attack" class="flex items-center justify-between">
+                                <span class="text-text-secondary font-medium w-20">Attack</span>
+                                <div class="flex-1 mx-4">
+                                    <div class="bg-border-light rounded-full h-3">
+                                        <div class="stat-bar bg-error-500 h-3 rounded-full" style="width: 0%" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="255"></div>
+                                    </div>
+                                </div>
+                                <span class="stat-value text-text-primary font-bold w-12 text-right font-data">0</span>
+                            </div>
+                            <div data-stat="defense" class="flex items-center justify-between">
+                                <span class="text-text-secondary font-medium w-20">Defense</span>
+                                <div class="flex-1 mx-4">
+                                    <div class="bg-border-light rounded-full h-3">
+                                        <div class="stat-bar bg-primary-500 h-3 rounded-full" style="width: 0%" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="255"></div>
+                                    </div>
+                                </div>
+                                <span class="stat-value text-text-primary font-bold w-12 text-right font-data">0</span>
+                            </div>
+                            <div data-stat="special-attack" class="flex items-center justify-between">
+                                <span class="text-text-secondary font-medium w-20">Sp. Atk</span>
+                                <div class="flex-1 mx-4">
+                                    <div class="bg-border-light rounded-full h-3">
+                                        <div class="stat-bar bg-secondary-500 h-3 rounded-full" style="width: 0%" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="255"></div>
+                                    </div>
+                                </div>
+                                <span class="stat-value text-text-primary font-bold w-12 text-right font-data">0</span>
+                            </div>
+                            <div data-stat="special-defense" class="flex items-center justify-between">
+                                <span class="text-text-secondary font-medium w-20">Sp. Def</span>
+                                <div class="flex-1 mx-4">
+                                    <div class="bg-border-light rounded-full h-3">
+                                        <div class="stat-bar bg-accent-500 h-3 rounded-full" style="width: 0%" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="255"></div>
+                                    </div>
+                                </div>
+                                <span class="stat-value text-text-primary font-bold w-12 text-right font-data">0</span>
+                            </div>
+                            <div data-stat="speed" class="flex items-center justify-between">
+                                <span class="text-text-secondary font-medium w-20">Speed</span>
+                                <div class="flex-1 mx-4">
+                                    <div class="bg-border-light rounded-full h-3">
+                                        <div class="stat-bar bg-warning-500 h-3 rounded-full" style="width: 0%" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="255"></div>
+                                    </div>
+                                </div>
+                                <span class="stat-value text-text-primary font-bold w-12 text-right font-data">0</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Enhanced CP Calculation -->
+                        <div class="mt-6 p-4 bg-gradient-to-r from-primary-50 to-secondary-50 rounded-lg">
+                            <h4 class="font-bold text-text-primary mb-2">Combat Power</h4>
+                            <div class="grid grid-cols-3 gap-4 text-center">
+                                <div>
+                                    <p class="text-text-secondary text-sm">Min CP (Lv.15)</p>
+                                    <p class="min-cp text-text-primary font-bold font-data">0</p>
+                                </div>
+                                <div>
+                                    <p class="text-text-secondary text-sm">Max CP (Lv.40)</p>
+                                    <p class="max-cp text-text-primary font-bold font-data">0</p>
+                                </div>
+                                <div>
+                                    <p class="text-text-secondary text-sm">Base Total</p>
+                                    <p class="total-cp text-text-primary font-bold font-data">0</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Abilities Tab -->
+                    <div id="abilities-tab" class="tab-content hidden" role="tabpanel" aria-labelledby="abilities-tab-button">
+                        <h3 class="text-xl font-bold text-text-primary mb-4">Abilities</h3>
+                        <div class="abilities-list space-y-4">
+                            <!-- Abilities will be populated by JavaScript -->
+                        </div>
+                    </div>
+
+                    <!-- Evolution Tab -->
+                    <div id="evolution-tab" class="tab-content hidden" role="tabpanel" aria-labelledby="evolution-tab-button">
+                        <h3 class="text-xl font-bold text-text-primary mb-4">Evolution Chain</h3>
+                        <div class="evolution-chain flex items-center justify-center space-x-4 overflow-x-auto">
+                            <!-- Evolution chain will be populated by JavaScript -->
+                        </div>
+                    </div>
+
+                    <!-- Moves Tab -->
+                    <div id="moves-tab" class="tab-content hidden" role="tabpanel" aria-labelledby="moves-tab-button">
+                        <h3 class="text-xl font-bold text-text-primary mb-4">Learnable Moves</h3>
+                        
+                        <!-- Filter Options -->
+                        <div class="flex flex-wrap gap-2 mb-6">
+                            <button class="btn-primary text-sm focus:outline-none focus:ring-2 focus:ring-primary-600">Level Up</button>
+                            <button class="bg-border text-text-secondary px-4 py-2 rounded-button text-sm hover:bg-border-light transition-smooth focus:outline-none focus:ring-2 focus:ring-primary">TM/TR</button>
+                            <button class="bg-border text-text-secondary px-4 py-2 rounded-button text-sm hover:bg-border-light transition-smooth focus:outline-none focus:ring-2 focus:ring-primary">Egg Moves</button>
+                        </div>
+
+                        <!-- Moves List -->
+                        <div class="moves-list space-y-3">
+                            <!-- Moves will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Additional Information -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Habitat & Location -->
+            <div class="card">
+                <h3 class="text-xl font-bold text-text-primary mb-4">Habitat & Location</h3>
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between">
+                        <span class="text-text-secondary">Habitat</span>
+                        <span class="habitat text-text-primary font-medium">Unknown</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-text-secondary">Generation</span>
+                        <span class="generation text-text-primary font-medium">Unknown</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-text-secondary">Catch Rate</span>
+                        <span class="catch-rate text-text-primary font-medium font-data">0</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-text-secondary">Base Friendship</span>
+                        <span class="base-friendship text-text-primary font-medium font-data">0</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Breeding Information -->
+            <div class="card">
+                <h3 class="text-xl font-bold text-text-primary mb-4">Breeding</h3>
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between">
+                        <span class="text-text-secondary">Egg Group</span>
+                        <span class="egg-groups text-text-primary font-medium">Unknown</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-text-secondary">Gender Ratio</span>
+                        <span class="gender-ratio text-text-primary font-medium font-data">Unknown</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-text-secondary">Egg Cycles</span>
+                        <span class="egg-cycles text-text-primary font-medium font-data">0</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-text-secondary">Base Exp.</span>
+                        <span class="base-exp text-text-primary font-medium font-data">0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Enhanced Footer -->
+    <footer class="bg-surface border-t border-border mt-16 no-print">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="text-center">
+                <p class="text-text-secondary">© 2025 Basic Pokedex. All Rights Reserved.</p>
+                <p class="text-text-secondary text-sm mt-2">Pokemon data provided by <a href="https://pokeapi.co" class="text-primary hover:underline" target="_blank" rel="noopener">PokeAPI</a></p>
+                <div class="mt-4 flex justify-center space-x-4 text-sm">
+                    <a href="#" class="text-text-secondary hover:text-primary transition-smooth">Privacy Policy</a>
+                    <a href="#" class="text-text-secondary hover:text-primary transition-smooth">Terms of Service</a>
+                    <a href="#" class="text-text-secondary hover:text-primary transition-smooth">Contact</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="../js/api.js"></script>
+    <script src="../js/pokemon-detail.js"></script>
+    
+    <!-- Analytics placeholder -->
+    <script>
+        // Analytics tracking would go here
+        console.log('Pokemon Detail View loaded');
+    </script>
+</body>
+</html>
